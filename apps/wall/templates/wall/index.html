@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Wall Assigment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body class="">
+    <nav class="navbar navbar-light bg-light justify-content-between border-bottom">
+        <h2 class="">CodingDojo Wall</h2>
+        <div class="d-inline">
+            <p class="d-inline mx-3">Welcome, {{ user.firstName }}</p>
+            <a href="/logout">Log out</a>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container my-5">
+            <form class="text-left" action="{% url 'wall:postMessage' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Post a message</label>
+                    <textarea name="message" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="text-right">
+                    <input class="btn btn-primary" type="submit" value="Post a message">
+                </div>
+            </form>
+        </div>
+
+        <div class="container allMessages">
+        {% load tz %}
+            <!-- display all messages -->
+            {% for message in allMessages %}
+            <div class="my-5">
+                <div class="message">
+                    <p class="font-weight-bold mb-1">
+                        {{ message.user.firstName }} {{ message.user.lastName }} - {{ message.created_at }}
+                        {% if message.user.id == request.session.userid %}
+                            {% if message.created_at|utc > thirtyAgo|utc %}
+                            <a class="font-weight-normal mx-2" href="{% url 'wall:deleteMess' id=message.id %}">Delete message</a>
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                    <p>{{ message.message }}</p>
+                </div>
+                <!-- display all the comments for that message -->
+                {% for comment in message.comments.all %}
+                    <div class="my-4 container">
+                        <p class="font-weight-bold mb-1">{{ comment.user.firstName }} {{ comment.user.lastName }} - {{ comment.created_at }}</p>
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                {% endfor %}
+                <!-- display textbox to comment on that message -->
+                <div class="container comment">
+                    <form class="" action="{% url 'wall:postComment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Post a comment</label>
+                            <textarea name="comment" class="form-control" rows="2"></textarea>
+                            <input type="hidden" name="messageId" value="{{ message.id }}">
+                        </div>
+                        <div class="text-right">
+                            <input class="btn btn-primary" type="submit" value="Post a comment">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

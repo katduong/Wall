@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login and Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body class="container my-3">
+    <h1 class="container">Login and Registration</h1>
+    <div class="left d-inline-block col-5 mr-5">
+        <h2>Register here!</h2>
+        <form action="/register" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="firstName">First name:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "firstname error" %}
+                        <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" id="firstName" name="firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last name:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "lastname error" %}
+                        <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" id="lastName" name="lastName">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "email error" %}
+                        <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="text" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "password error" %}
+                        <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password:</label>
+              {% if messages %}
+                  {% for message in messages %}
+                  {% if message.tags == "password2 error" %}
+                      <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                  {% endif %}
+                  {% endfor %}
+              {% endif %}
+              <input type="password" class="form-control" id="confirmPassword" name="password2">
+            </div>
+            <input class="btn btn-primary"type="submit" value="Register">
+        </form>
+    </div>
+
+    <div class="right d-inline-block col-5 align-top mx-5">
+        <h2>Login here!</h2>
+        <form action="/login" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="">Email: </label>
+                {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "emailLogin error" %}
+                        <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input class="form-control" type="text" name="email" >
+            </div>
+            <div class="form-group">
+                <label for="">Password:</label>
+                {% if messages %}
+                    {% for message in messages %}
+                    {% if message.tags == "passwordLogin error" %}
+                        <p  class="mx-2 d-inline text-danger">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <input class="form-control" type="password" name="password">
+            </div>
+            <input class="btn btn-primary"type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
